@@ -1,5 +1,12 @@
 # Changelog
 
+## [26.43.0](https://github.com/Koenkk/zigbee-herdsman-converters/compare/v26.42.0...v26.43.0) (2026-05-01)
+
+
+### Features
+
+* **add:** RINN WSER40 ([#12080](https://github.com/Koenkk/zigbee-herdsman-converters/issues/12080)) ([90b36da](https://github.com/Koenkk/zigbee-herdsman-converters/commit/90b36da8a4d4bf6e3259b1f018f4a0fd6e5445e0))
+
 ## [26.42.0](https://github.com/Koenkk/zigbee-herdsman-converters/compare/v26.41.0...v26.42.0) (2026-05-01)
 
 
