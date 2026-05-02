@@ -1761,7 +1761,27 @@ export const definitions: DefinitionWithExtend[] = [
             }),
             m.lightingBallast(),
             schneiderElectricExtend.dimmingMode(),
+            schneiderElectricExtend.addSchneiderLightSwitchConfigurationCluster(),
+            switchActions(),
         ],
+        // The local rocker (ep21) emits genOnOff/genLevelCtrl as a client. Out of the box, ep21
+        // has an empty bind table and `switchActions` defaults to `not_used`, so pressing the
+        // physical button does nothing while the device is on the network. Bind ep21 to ep3 of
+        // the same device so presses are handled locally without going on-air, and set
+        // `switchActions` to `dimmer` so the firmware actually emits commands.
+        configure: async (device, coordinatorEndpoint) => {
+            const ep21 = device.getEndpoint(21);
+            const ep3 = device.getEndpoint(3);
+            if (ep21 && ep3) {
+                await ep21.bind("genOnOff", ep3);
+                await ep21.bind("genLevelCtrl", ep3);
+                await ep21.write<"manuSpecificSchneiderLightSwitchConfiguration", SchneiderLightSwitchConfiguration>(
+                    "manuSpecificSchneiderLightSwitchConfiguration",
+                    {switchActions: 1},
+                    {manufacturerCode: Zcl.ManufacturerCode.SCHNEIDER_ELECTRIC},
+                );
+            }
+        },
         whiteLabel: [
             {vendor: "Elko", model: "EKO07278"},
             {vendor: "Elko", model: "EKO07279"},
